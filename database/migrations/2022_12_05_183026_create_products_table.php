@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->longText('description');
             $table->string('amount');
             $table->text('image');
-            $table->string('favorite');
+            $table->string('favorite')->default('0');
             $table->timestamps();
         });
     }

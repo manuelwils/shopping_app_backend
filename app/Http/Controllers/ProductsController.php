@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
 {
-    public function store(Request $request) {
+    protected function store(Request $request) : object {
         $validator = Validator::make(
             $request->all(), 
             [
@@ -17,24 +17,26 @@ class ProductsController extends Controller
                 'description' => 'required|string|min:10',
                 'amount' => 'required|min:1',
                 'image' => 'required|string|min:10',
-                'favorite' => 'required'
             ],
         );
         if($validator->fails()) {
-            Log::warning('something went wrong');
-            return response()->json($validator)->header('Content-type', 'application/json');
+            return response()->json($validator);
         }
         
         $data = $validator->validated();
         $query = false;
         try {
             $query = Products::create($data);
+            if($query) {
+                return response()->json($query);
+            }
         } catch(\Exception $e) {
-            Log::warning($e);
+            return response()->json($e->getMessage());
         }
-        
-        if($query) {
-            return response()->json(['message' => 'success'])->header('Content-type', 'application/json');
-        }
+    }
+
+    protected function fetch() : object {
+        $products = Products::all();
+        return response()->json($products);
     }
 }
