@@ -27,3 +27,9 @@ Route::group(['prefix' => 'product'], function() {
     Route::patch('/{id}', [ProductsController::class, 'patch']);
     Route::put('/{id}', [ProductsController::class, 'update']);
 });
+
+Route::group(['prefix' => 'orders'], function() {
+    Route::post('/store', [ProductsController::class, 'store']);
+    Route::get('/fetch', [ProductsController::class, 'fetch']);
+    Route::delete('/{id}', [ProductsController::class, 'delete']);
+});
