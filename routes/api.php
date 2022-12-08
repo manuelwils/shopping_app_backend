@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProductsController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ Route::group(['prefix' => 'product'], function() {
 });
 
 Route::group(['prefix' => 'orders'], function() {
-    Route::post('/store', [ProductsController::class, 'store']);
-    Route::get('/fetch', [ProductsController::class, 'fetch']);
-    Route::delete('/{id}', [ProductsController::class, 'delete']);
+    Route::post('/store', [OrdersController::class, 'store']);
+    Route::get('/fetch', [OrdersController::class, 'fetch']);
+    Route::delete('/{id}', [OrdersController::class, 'delete']);
 });
