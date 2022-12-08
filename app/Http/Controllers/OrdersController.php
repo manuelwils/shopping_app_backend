@@ -36,16 +36,4 @@ class OrdersController extends Controller
         $products = Orders::all();
         return response()->json($products);
     }
-
-    protected function delete(Request $request) : object {
-        try {
-            $query = Orders::find($request->id)->delete();
-            if($query) {
-                return response()->json($query);
-            }
-            return response()->setStatusCode(403);
-        } catch(\Exception $e) {
-            return Log::warning($e);
-        }
-    }
 }
