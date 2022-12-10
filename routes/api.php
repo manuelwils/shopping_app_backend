@@ -31,5 +31,4 @@ Route::group(['prefix' => 'product'], function() {
 Route::group(['prefix' => 'orders'], function() {
     Route::post('/store', [OrdersController::class, 'store']);
     Route::get('/fetch', [OrdersController::class, 'fetch']);
-    Route::delete('/{id}', [OrdersController::class, 'delete']);
 });
