@@ -18,21 +18,28 @@ use App\Http\Controllers\ProductsController;
 */
 
 Route::group(
-    ['prefix' => 'auth'], 
+    [
+        'prefix' => 'auth',
+        'middleware' => 'guest:sanctum',
+    ],
     function() {
         Route::post(
             '/register', 
             [UserController::class, 'register'],
-        )->middleware('guest:sanctum');
+        );
         Route::post(
             '/login', 
             [UserController::class, 'login'],
-        )->middleware('guest:sanctum');
+        );
     }
 );
 
-Route::middleware('auth:sanctum')->get('/', function () {
-    Route::group(['prefix' => 'product'], function() {
+Route::group(
+    [
+        'prefix' => 'product', 
+        'middleware' => 'auth:sanctum',
+    ],
+    function() {
         Route::post(
             '/store', 
             [ProductsController::class, 'store'],
@@ -53,9 +60,15 @@ Route::middleware('auth:sanctum')->get('/', function () {
             '/{id}', 
             [ProductsController::class, 'update'],
         );
-    });
-    
-    Route::group(['prefix' => 'orders'], function() {
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'orders',
+        'middleware' => 'auth:sanctum',
+    ],
+    function() {
         Route::post(
             '/store', 
             [OrdersController::class, 'store'],
@@ -64,5 +77,5 @@ Route::middleware('auth:sanctum')->get('/', function () {
             '/fetch', 
             [OrdersController::class, 'fetch'],
         );
-    });
-});
+    }
+);

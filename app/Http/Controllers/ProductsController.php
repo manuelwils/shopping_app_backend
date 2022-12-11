@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -37,10 +38,11 @@ class ProductsController extends Controller
     }
 
     protected function fetch() : object {
+        //return response()->json(request()->user());
         $products = Products::all();
         return response()->json($products);
     }
-
+    
     protected function delete(Request $request) : object {
         try {
             $query = Products::find($request->id)->delete();
