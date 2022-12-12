@@ -17,65 +17,26 @@ use App\Http\Controllers\ProductsController;
 |
 */
 
-Route::group(
-    [
-        'prefix' => 'auth',
-        'middleware' => 'guest:sanctum',
-    ],
+Route::controller(UserController::class)->middleware('guest:sanctum')->prefix('auth')->group(
     function() {
-        Route::post(
-            '/register', 
-            [UserController::class, 'register'],
-        );
-        Route::post(
-            '/login', 
-            [UserController::class, 'login'],
-        );
+        Route::post('/register', 'register');
+        Route::post('/login', 'login');
     }
 );
 
-Route::group(
-    [
-        'prefix' => 'product', 
-        'middleware' => 'auth:sanctum',
-    ],
+Route::controller(ProductsController::class)->middleware('auth:sanctum')->prefix('product')->group(
     function() {
-        Route::post(
-            '/store', 
-            [ProductsController::class, 'store'],
-        );
-        Route::get(
-            '/fetch', 
-            [ProductsController::class, 'fetch'],
-        );
-        Route::delete(
-            '/{id}', 
-            [ProductsController::class, 'delete'],
-        );
-        Route::patch(
-            '/{id}', 
-            [ProductsController::class, 'patch'],
-        );
-        Route::put(
-            '/{id}', 
-            [ProductsController::class, 'update'],
-        );
+        Route::post('/store', 'store');
+        Route::get('/fetch','fetch');
+        Route::delete('/{id}', 'delete');
+        Route::patch('/{id}', 'patch');
+        Route::put('/{id}', 'update');
     }
 );
 
-Route::group(
-    [
-        'prefix' => 'orders',
-        'middleware' => 'auth:sanctum',
-    ],
+Route::controller(OrdersController::class)->middleware('auth:sanctum')->prefix('orders')->group(
     function() {
-        Route::post(
-            '/store', 
-            [OrdersController::class, 'store'],
-        );
-        Route::get(
-            '/fetch', 
-            [OrdersController::class, 'fetch'],
-        );
+        Route::post('/store', 'store');
+        Route::get('/fetch', 'fetch');
     }
 );
