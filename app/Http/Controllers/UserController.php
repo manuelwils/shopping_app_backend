@@ -49,7 +49,6 @@ class UserController extends Controller
     }
 
     protected function login(Request $request) : object{
-        //return response()->json($request->all());
         $fields = $request->validate(
             [
                 'email' => 'required|string',
