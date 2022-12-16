@@ -37,10 +37,16 @@ class ProductsController extends Controller
         }
     }
 
-    protected function fetch() : object {
-        //return response()->json(request()->user());
-        $products = Products::all();
-        return response()->json($products);
+    protected function fetch(Request $request) : object {
+        $header = $request->header();
+        if(auth()->user()) {
+            if(array_key_exists('user', $header) && $header['user'][0] == 'true') {    
+                $products = Products::where('user_id', auth()->user()->id)->get();
+            } else {
+                $products = Products::all();
+            }
+            return response()->json($products);
+        }
     }
     
     protected function delete(Request $request) : object {
@@ -51,7 +57,7 @@ class ProductsController extends Controller
             }
             return response()->setStatusCode(403);
         } catch(\Exception $e) {
-            return Log::warning($e);
+            return response()->json($e->getMessage());
         }
     }
 

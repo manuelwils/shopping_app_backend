@@ -64,7 +64,7 @@ class UserController extends Controller
             $token = $user->createToken($fields['device_name'])->plainTextToken;
 
             $user['token'] = $token;
-            $user['token_expiration'] = Carbon::now()->addMinutes(
+            $user['token_expiration'] = Carbon::now()->addSeconds(
                 intval(
                     config('sanctum.expiration'),
                 ),
